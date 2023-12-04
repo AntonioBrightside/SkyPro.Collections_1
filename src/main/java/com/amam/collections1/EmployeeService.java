@@ -5,56 +5,36 @@ import com.amam.collections1.exceptions.EmployeeNotFoundException;
 import com.amam.collections1.exceptions.EmployeeStorageIsFullException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class EmployeeService {
-    private Set<Employee> employees;
-    public static final int MAX_EMPLOYEES = 5;
+
+    private EmployeeBook employeeBook;
 
     public EmployeeService() {
-        employees = new HashSet<>();
+        this.employeeBook = new EmployeeBook();
     }
 
-    public Employee addEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+    public Employee addEmployee(String firstName, String lastName, String unit, String salary) {
+        Employee employee = new Employee(firstName, lastName, unit, salary);
 
-        if (employees.size() >= MAX_EMPLOYEES) {
-            throw new EmployeeStorageIsFullException("Количество сотрудников достигло максимума. Обсудите возможность добавление персонала с руководством");
-        }
-
-        if (employees.contains(employee)) {
-            throw new EmployeeAlreadyAddedException("Такой пользователь уже работает в компании");
-        }
-
-        employees.add(employee);
+        employeeBook.add(employee);
         return employee;
     }
 
-    public Employee findEmployee(String firstName, String lastName) {
-
-        Employee employee = new Employee(firstName, lastName);
-
-        if (employees.contains(employee)) {
-            return employee;
-        } else {
-            throw new EmployeeNotFoundException("Такой пользователь не работает в компании");
-        }
+    public Employee findEmployee(Integer key) {
+        return employeeBook.find(key);
     }
 
-    public Employee removeEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-
-        if (employees.contains(employee)) {
-            employees.remove(employee);
-            return employee;
-        } else {
-            throw new EmployeeNotFoundException("Такой пользователь не работает в компании и удалить его невозможно");
-        }
+    public Employee removeEmployee(Integer key) {
+        return employeeBook.remove(key);
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public Collection<Employee> getEmployees() {
+        return employeeBook.getEmployeesBook();
     }
 }
