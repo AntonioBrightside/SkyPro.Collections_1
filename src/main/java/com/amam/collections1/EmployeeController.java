@@ -6,6 +6,7 @@ import com.amam.collections1.exceptions.EmployeeStorageIsFullException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Set;
 
 @RestController
@@ -18,25 +19,26 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Set<Employee> showAllEmployees() {
+    public Collection<Employee> showAllEmployees() {
         return ES.getEmployees();
     }
 
     @GetMapping("/add")
     public Employee addEmployee(@RequestParam("firstName") String firstName,
-                                @RequestParam("lastName") String lastName) {
-        return ES.addEmployee(firstName, lastName);
+                                @RequestParam("lastName") String lastName,
+                                @RequestParam("unit") String unit,
+                                @RequestParam("salary") String salary) {
+
+        return ES.addEmployee(firstName, lastName, unit, salary);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam("firstName") String firstName,
-                                   @RequestParam("lastName") String lastName) {
-        return ES.removeEmployee(firstName, lastName);
+    public Employee removeEmployee(@RequestParam("key") Integer key) {
+        return ES.removeEmployee(key);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam("firstName") String firstName,
-                                 @RequestParam("lastName") String lastName) {
-        return ES.findEmployee(firstName, lastName);
+    public Employee findEmployee(@RequestParam("key") Integer key) {
+        return ES.findEmployee(key);
     }
 }

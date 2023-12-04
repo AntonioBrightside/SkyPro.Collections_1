@@ -5,34 +5,39 @@ import java.util.Objects;
 
 public class Employee {
 
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String secondName;
+    private final String unit;
+    private final String salary;
 
 
-    public Employee(String firstName, String  lastName) {
+    public Employee(String firstName, String secondName, String unit, String salary) {
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.secondName = secondName;
+        this.unit = unit;
+        this.salary = salary;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getSalary() {
+        return salary;
     }
+
 
     @Override
     public String toString() {
-        return String.format("Имя: %s, Фамилия: %s", firstName, lastName);
+        return firstName + " " + secondName + " [подразделение: " + unit + ", з/п: " + salary + " руб.]";
     }
 
     @Override
@@ -40,12 +45,11 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName);
+        return Objects.equals(firstName, employee.firstName) && Objects.equals(secondName, employee.secondName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(firstName, secondName);
     }
 }
-
