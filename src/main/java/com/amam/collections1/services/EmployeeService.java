@@ -2,7 +2,6 @@ package com.amam.collections1.services;
 
 import com.amam.collections1.services.for_services.Employee;
 
-import java.util.Collection;
 import java.util.Map;
 
 public interface EmployeeService {
@@ -16,4 +15,5 @@ public interface EmployeeService {
     String getEmployees();
 
     Map<Integer, Employee> getEmployeesBook();
+    boolean isIncorrectNamesSpelling(String text);
 }

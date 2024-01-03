@@ -1,8 +1,10 @@
 package com.amam.collections1.services;
 
 import com.amam.collections1.exceptions.EmployeeAlreadyAddedException;
+import com.amam.collections1.exceptions.EmployeeNameIsIncorrect;
 import com.amam.collections1.exceptions.EmployeeNotFoundException;
 import com.amam.collections1.services.for_services.Employee;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,7 +23,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, int unit, float salary) {
-        Employee employee = new Employee(firstName, lastName, unit, salary);
+
+        if (isIncorrectNamesSpelling(firstName) || isIncorrectNamesSpelling(lastName)) {
+            throw new EmployeeNameIsIncorrect("Имя или фамилия имеют запрещенные символы");
+        }
+
+        Employee employee = new Employee(StringUtils.capitalize(firstName.toLowerCase()),
+                StringUtils.capitalize(lastName.toLowerCase()),
+                unit,
+                salary);
 
         if (isAlreadyIn(employee)) {
             throw new EmployeeAlreadyAddedException("Данный пользователь уже существует в базе");
@@ -63,8 +73,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeesBook.toString();
     }
 
-
-
     /**
      * Проверят список сотрудников на дублирование при добавлении
      * @param o [Employee] сотрудник
@@ -86,5 +94,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<Integer, Employee> getEmployeesBook() {
         return employeesBook;
+    }
+
+    /**
+     * Проверяет String на наличие запрещенных символов и чисел
+     * @param text String
+     * @return boolean
+     */
+    @Override
+    public boolean isIncorrectNamesSpelling(String text) {
+        return StringUtils.containsAny(text, "!\"#$%&'()*+,\\-./:;<=>?@[]^_`{|} 0123456789");
     }
 }
