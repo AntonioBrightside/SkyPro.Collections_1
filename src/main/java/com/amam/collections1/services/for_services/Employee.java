@@ -1,4 +1,4 @@
-package com.amam.collections1;
+package com.amam.collections1.services.for_services;
 
 import java.util.Objects;
 
@@ -7,11 +7,10 @@ public class Employee {
 
     private final String firstName;
     private final String secondName;
-    private final String unit;
-    private final String salary;
+    private final int unit;
+    private final float salary;
 
-
-    public Employee(String firstName, String secondName, String unit, String salary) {
+    public Employee(String firstName, String secondName, int unit, float salary) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.unit = unit;
@@ -26,18 +25,17 @@ public class Employee {
         return secondName;
     }
 
-    public String getUnit() {
+    public int getUnit() {
         return unit;
     }
 
-    public String getSalary() {
+    public float getSalary() {
         return salary;
     }
 
-
     @Override
     public String toString() {
-        return firstName + " " + secondName + " [подразделение: " + unit + ", з/п: " + salary + " руб.]";
+        return firstName + " " + secondName + " [подразделение: " + unit + ", з/п: " + String.format("%,.2f", salary) + " руб.]";
     }
 
     @Override
@@ -52,4 +50,5 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(firstName, secondName);
     }
+
 }
