@@ -14,29 +14,29 @@ import java.util.Map;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-    private final DepartmentService DS;
+    private final DepartmentService ds;
 
     public DepartmentController(DepartmentService departmentService) {
-        DS = departmentService;
+        ds = departmentService;
     }
 
     @GetMapping("/max-salary")
     public Employee getMaxSalaryEmployeeInDepartment(@RequestParam("departmentId") int departmentId) {
-        return DS.getMaxSalaryEmployeeInDepartment(departmentId);
+        return ds.getMaxSalaryEmployeeInDepartment(departmentId);
     }
 
     @GetMapping("/min-salary")
     public Employee getMinSalaryEmployeeInDepartment(@RequestParam("departmentId") int departmentId) {
-        return DS.getMinSalaryEmployeeInDepartment(departmentId);
+        return ds.getMinSalaryEmployeeInDepartment(departmentId);
     }
 
     @GetMapping(value = "/all", params = "departmentId")
     public List<Employee> getAllEmployeesInDepartment(@RequestParam("departmentId") int departmentId) {
-        return DS.getAllEmployeesInDepartment(departmentId);
+        return ds.getAllEmployeesInDepartment(departmentId);
     }
 
     @GetMapping(value = "/all")
     public Map<Integer, List<Employee>> getAllEmployeesDividedToDeparments() {
-        return DS.getAllEmployeesDividedToDeparments();
+        return ds.getAllEmployeesDividedToDeparments();
     }
 }

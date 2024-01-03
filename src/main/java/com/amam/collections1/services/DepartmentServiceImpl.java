@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private final EmployeeService ES;
+    private final EmployeeService es;
 
     public DepartmentServiceImpl(EmployeeService es) {
-        ES = es;
+        this.es = es;
     }
 
     @Override
     public Employee getMaxSalaryEmployeeInDepartment(int departmentId) {
-        return ES.getEmployeesBook().values().stream()
+        return es.getEmployeesBook().values().stream()
                 .filter(employee -> employee.getUnit() == departmentId)
                 .max(Comparator.comparing(Employee::getSalary))
                 .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
@@ -28,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Employee getMinSalaryEmployeeInDepartment(int departmentId) {
-        return ES.getEmployeesBook().values().stream()
+        return es.getEmployeesBook().values().stream()
                 .filter(employee -> employee.getUnit() == departmentId)
                 .min(Comparator.comparing(Employee::getSalary))
                 .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
@@ -36,14 +36,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Employee> getAllEmployeesInDepartment(int departmentId) {
-        return ES.getEmployeesBook().values().stream()
+        return es.getEmployeesBook().values().stream()
                 .filter(employee -> employee.getUnit() == departmentId)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Map<Integer, List<Employee>> getAllEmployeesDividedToDeparments() {
-        return ES.getEmployeesBook().values().stream().
+        return es.getEmployeesBook().values().stream().
                 collect(Collectors.groupingBy(Employee::getUnit));
 
     }
