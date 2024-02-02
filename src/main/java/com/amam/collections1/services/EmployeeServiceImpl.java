@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,6 +22,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeesBook = new HashMap<>();
     }
 
+    /**
+     * Добавляе сотрудника в коллекцию
+     * @param firstName имя
+     * @param lastName фамилия
+     * @param unit ID департамента
+     * @param salary зарплата
+     * @return сотрудник
+     */
     @Override
     public Employee addEmployee(String firstName, String lastName, int unit, float salary) {
 
@@ -65,13 +74,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * Возвращает коллекцию всех сотрудников
-     * @return коллекция сотрудников
+     * Возвращает список всех сотрудников
+     * @return список сотрудников
      */
     @Override
     public String getEmployees() {
         return employeesBook.toString();
     }
+
 
     /**
      * Проверят список сотрудников на дублирование при добавлении

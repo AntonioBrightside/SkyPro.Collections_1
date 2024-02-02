@@ -18,37 +18,94 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.es = es;
     }
 
-    @Override
-    public Employee getMaxSalaryEmployeeInDepartment(int departmentId) {
-        return es.getEmployeesBook().values().stream()
-                .filter(employee -> employee.getUnit() == departmentId)
-                .max(Comparator.comparing(Employee::getSalary))
-                .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
-    }
-
-    @Override
-    public Employee getMinSalaryEmployeeInDepartment(int departmentId) {
-        return es.getEmployeesBook().values().stream()
-                .filter(employee -> employee.getUnit() == departmentId)
-                .min(Comparator.comparing(Employee::getSalary))
-                .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
-    }
-
+    /**
+     * Возвращает список всех сотруднико в департаменте
+     * @param departmentId ID департамента
+     * @return список всех сотрудников в департаменте
+     */
     @Override
     public List<Employee> getAllEmployeesInDepartment(int departmentId) {
+        if (isEmptyList(departmentId)) {
+            throw new EmployeeNotFoundException("Нет сотрудников в указанном департаменте");
+        }
+
         return es.getEmployeesBook().values().stream()
                 .filter(employee -> employee.getUnit() == departmentId)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Возвращает сумму зарплат сотрудников в департаменте
+     * @param departmentId ID департамента
+     * @return
+     */
+    @Override
+    public Double getSalarySumInDepartment(int departmentId) {
+        if (isEmptyList(departmentId)) {
+            throw new EmployeeNotFoundException("Нет сотрудников в указанном департаменте");
+        }
+
+        return es.getEmployeesBook().values().stream()
+                .filter(employee -> employee.getUnit() == departmentId)
+                .collect(Collectors.summingDouble(Employee::getSalary));
+    }
+
+    /**
+     * Возвращает максимальную зарплату в департаменте
+     *
+     * @param departmentId ID департамента
+     * @return
+     */
+    @Override
+    public float getMaxSalaryEmployeeInDepartment(int departmentId) {
+        Employee e =  es.getEmployeesBook().values().stream()
+                .filter(employee -> employee.getUnit() == departmentId)
+                .max(Comparator.comparing(Employee::getSalary))
+                .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
+
+        return e.getSalary();
+    }
+
+    /**
+     * Возвращает минимальную зарплату в департаменте
+     *
+     * @param departmentId ID департамента
+     * @return
+     */
+    @Override
+    public float getMinSalaryEmployeeInDepartment(int departmentId) {
+        Employee e = es.getEmployeesBook().values().stream()
+                .filter(employee -> employee.getUnit() == departmentId)
+                .min(Comparator.comparing(Employee::getSalary))
+                .orElseThrow(() -> new EmployeeNotFoundException("Нет сотрудников в отделе"));
+
+        return e.getSalary();
+    }
+
+    /**
+     * Возвращает словарь всех сотрудников, сгруппированных по департаментам
+     * @return
+     */
     @Override
     public Map<Integer, List<Employee>> getAllEmployeesDividedToDeparments() {
         return es.getEmployeesBook().values().stream().
                 collect(Collectors.groupingBy(Employee::getUnit));
-
     }
 
-
+    /**
+     * Булево значение на вопрос "пустой ли список?"
+     * @param departmentId ID департамента
+     * @return true, если в департаменте никого
+     */
+    private boolean isEmptyList(int departmentId) {
+        if (es.getEmployeesBook().values().stream()
+                .filter(employee -> employee.getUnit() == departmentId)
+                .collect(Collectors.toList()).isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 

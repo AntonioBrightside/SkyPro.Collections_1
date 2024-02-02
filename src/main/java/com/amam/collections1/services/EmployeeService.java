@@ -15,5 +15,6 @@ public interface EmployeeService {
     String getEmployees();
 
     Map<Integer, Employee> getEmployeesBook();
+
     boolean isIncorrectNamesSpelling(String text);
 }

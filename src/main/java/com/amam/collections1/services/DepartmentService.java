@@ -4,12 +4,13 @@ import com.amam.collections1.services.for_services.Employee;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface DepartmentService {
-    Employee getMaxSalaryEmployeeInDepartment(int departmentId);
+    Double getSalarySumInDepartment(int departmentId);
 
-    Employee getMinSalaryEmployeeInDepartment(int departmentId);
+    float getMaxSalaryEmployeeInDepartment(int departmentId);
+
+    float getMinSalaryEmployeeInDepartment(int departmentId);
 
     List<Employee> getAllEmployeesInDepartment(int departmentId);
 
